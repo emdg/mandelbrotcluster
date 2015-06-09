@@ -1,0 +1,67 @@
+<project>
+
+	<target name="clean">
+		<delete dir="build"/>
+		<delete dir="img"/>
+	</target>
+
+
+	<target name="compile">
+		<mkdir dir="build/classes"/>
+		<mkdir dir="img"/>
+		<javac srcdir="src" destdir="build/classes"/>
+	</target>
+
+	<target name="jar">
+		<mkdir dir="build/jar"/>
+
+		<jar destfile="build/jar/Computer.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Main-Class" value="system.Computer"/>
+			</manifest>
+		</jar>
+
+		<jar destfile="build/jar/Space.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Main-Class" value="system.SpaceImpl"/>
+			</manifest>
+		</jar>
+
+		<jar destfile="build/jar/Mandel.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Main-Class" value="mandelbrot.MandelbrotClient"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="runComputer">
+		<java jar="build/jar/Computer.jar" fork="true">
+			<arg value="${space_ip}"/>
+			<jvmarg value="-Djava.rmi.server.hostname=${computer_ip}"/>
+			<jvmarg value="-Djava.security.policy=src/server.policy"/>
+		</java>
+	</target>
+
+
+
+	<target name="runSpace">
+		<java jar="build/jar/Space.jar" fork="true">
+			<jvmarg value="-Djava.security.policy=src/server.policy"/>
+
+			<jvmarg value="-Djava.rmi.server.hostname=${space_ip}"/>
+		</java>
+	</target>
+
+
+
+
+	<target name="runMandel">
+		<java jar="build/jar/Mandel.jar" fork="true">
+			<arg value="${space_ip}"/>
+			<jvmarg value="-Djava.security.policy=src/server.policy"/>
+		</java>
+	</target>
+
+
+
+</project>

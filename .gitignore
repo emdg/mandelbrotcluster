@@ -1,0 +1,7 @@
+target/**
+.project
+.classpath
+.DS_STORE
+*.class
+.setting/**
+*.mp4
